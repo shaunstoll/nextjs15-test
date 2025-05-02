@@ -13,6 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Debug - List files
+        run: |
+          pwd
+          ls -la
+          echo "pnpm-lock.yaml exists: $(test -f pnpm-lock.yaml && echo 'yes' || echo 'no')"
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -35,7 +41,9 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          pnpm --version
+          pnpm install --frozen-lockfile
 
       - name: Build
         run: pnpm build
